@@ -23,12 +23,14 @@ shell into container:
 docker exec -it <id> /bin/bash
 
 root@id:/app# go run src/grpc_client.go --hostname client-egress:9999 --originalHost server-2
-2024/10/25 05:49:40 hostname: client-egress:9999, originalHost: server-2
-2024/10/25 05:49:40 Echo response: what's up
+
+2024/10/25 06:16:27 hostname: client-egress:9999, originalHost: server-2
+2024/10/25 06:16:27 Echo response: [server-2]what's up
 
 
 root@id:/app# go run src/grpc_client.go --hostname client-egress:9999 --originalHost server-1
-2024/10/25 05:49:42 hostname: client-egress:9999, originalHost: server-1
-2024/10/25 05:49:42 Echo response: what's up
+
+2024/10/25 06:16:31 hostname: client-egress:9999, originalHost: server-1
+2024/10/25 06:16:31 Echo response: [server-1]what's up
 
 ```
