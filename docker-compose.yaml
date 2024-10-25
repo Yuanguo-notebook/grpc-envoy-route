@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+
+  client-egress:
+    image: envoyproxy/envoy:v1.31.0
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./envoy_client.yaml:/etc/envoy/envoy.yaml
+      - ./certs:/certs
+    command:
+      - envoy
+      - -c /etc/envoy/envoy.yaml 
+      - -l debug
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: ["/bin/sleep", "infinity"]
+
+  server-1-ingress:
+    image: envoyproxy/envoy:v1.31.0
+    volumes:
+      - ./envoy_server.yaml:/etc/envoy/envoy.yaml
+      - ./certs:/certs
+    command:
+      - -c /etc/envoy/envoy.yaml 
+      - -l debug
+
+
+  server-1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: ["go", "run", "src/grpc_server.go", "--name", "server-1"] 
+
+
+  server-2-ingress:
+    image: envoyproxy/envoy:v1.31.0
+    volumes:
+      - ./envoy_server-2.yaml:/etc/envoy/envoy.yaml
+      - ./certs:/certs
+    command:
+      - -c /etc/envoy/envoy.yaml 
+      - -l debug
+
+
+  server-2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    command: ["go", "run", "src/grpc_server.go", "--name", "server-2"] 
