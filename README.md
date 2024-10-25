@@ -1,4 +1,4 @@
-## Envoy sidecar proxying gRPC with tls and header based routing
+## [example] Envoy sidecar proxying gRPC with tls and header based routing
 
 We use envoy to proxy gRPC requests. where client points at a localhost port and send rpc with header. envoy client sidecar will route to different upstream based on header.
 
